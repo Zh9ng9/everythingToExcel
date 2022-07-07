@@ -12,17 +12,6 @@ INFO_BLUE = "\033[0;34m[i] "
 TIME_GREEN = "\033[7;32m[+] "
 ERROR_RED = "\033[0;31m[!] "
 
-# 获取每列所占用的最大列宽
-def get_max_col(max_list):
-    line_list = []
-    # i表示行，j代表列
-    for j in range(len(max_list[0])):
-        line_num = []
-        for i in range(len(max_list)):
-            line_num.append(max_list[i][j])  # 将每列的宽度存入line_num
-        line_list.append(max(line_num))  # 将每列最大宽度存入line_list
-    return line_list
-
 def EholeJsonData():
     global args
     result = []
@@ -36,7 +25,7 @@ def EholeJsonData():
             if line_json[item] == "None" or line_json[item] == None:
                 line_result.append("")
             else:
-                line_result.append(line_json[item])
+                line_result.append(str(line_json[item]))
         result.append(line_result)
     return result
 
@@ -118,10 +107,22 @@ def main():
         if args.header:
             for header_j in range(len(args.header)):
                 sheet.write(0, header_j, args.header[header_j])
+        # 最大列数
+        cols_count = 0
+        for i in data:
+            cols_count = len(i) if len(i) > cols_count else cols_count
+        # 记录每行宽度
+        col_list = [len(args.header[x].encode('gb18030')) for x in range(len(args.header))]
         # 数据写入Excel
         for i in range(len(data)):
             for j in range(len(data[i])):
+                # 写入
                 sheet.write(i + 1, j, data[i][j])
+                # 找更大的值
+                col_list[j] = len(data[i][j].encode('gb18030')) if len(data[i][j].encode('gb18030')) > col_list[j] else col_list[j]
+        for i in range(0, len(col_list)):
+            # 256*字符数得到excel列宽,为了不显得特别紧凑添加两个字符宽度
+            sheet.col(i).width = 255 * (col_list[i] + 2)
         # 保存xls
         workbook.save(args.outputFile)
     except Exception as e:
