@@ -55,7 +55,7 @@ def main():
     print(SPECIAL_PURPLE + 'everythingToExcel')
     print(SPECIAL_PURPLE + '把多种格式的数据转为Excel')
     print(SPECIAL_PURPLE + 'Write by zh9ng9 <\033[5;35mhttps://github.com/Zh9ng9/everythingToExcel\033[0;35m> (202207)')
-    print(SPECIAL_PURPLE + '''Example:\n    everythingToExcel.py -iF ./input.json -oF output.xls\n    everythingToExcel.py -t txt -f '|' -iF ./input.txt -oF output.xls''')
+    print(SPECIAL_PURPLE + '''Example:\n    everythingToExcel.py -iF ./input.json -oF output.xls\n    everythingToExcel.py -t txt -iF ./input.txt -H "序号|姓名|xxx|yyy|zzz" -oF output.xls''')
     print(SET_DEAULT)
     # 参数配置
     parser = argparse.ArgumentParser()
@@ -89,6 +89,9 @@ def main():
         workbook = xlwt.Workbook(encoding='utf-8')
         # xlwt-sheet 建立
         sheet = workbook.add_sheet('GoodLuck')
+        # 表头的修改
+        if args.header:
+            args.header = args.header.split('|')
         # 根据不同的type从不同函数获取数据
         if args.type == "txt":
             data = csvData()
@@ -111,7 +114,7 @@ def main():
         cols_count = 0
         for i in data:
             cols_count = len(i) if len(i) > cols_count else cols_count
-        # 记录每行宽度
+        # 记录每列最大宽度
         col_list = [len(args.header[x].encode('gb18030')) for x in range(len(args.header))]
         # 数据写入Excel
         for i in range(len(data)):
@@ -121,7 +124,7 @@ def main():
                 # 找更大的值
                 col_list[j] = len(data[i][j].encode('gb18030')) if len(data[i][j].encode('gb18030')) > col_list[j] else col_list[j]
         for i in range(0, len(col_list)):
-            # 256*字符数得到excel列宽,为了不显得特别紧凑添加两个字符宽度
+            # 256*字符数得到excel列宽
             sheet.col(i).width = 255 * (col_list[i] + 2)
         # 保存xls
         workbook.save(args.outputFile)
