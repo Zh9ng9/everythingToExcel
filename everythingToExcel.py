@@ -3,8 +3,13 @@ import argparse
 import time
 import json
 import traceback
-
 import xlwt
+# import colorama
+# from colorama import init,Fore,Back,Style
+# init(autoreset=True)
+import os
+if os.name == "nt":
+    os.system("")
 
 SET_DEAULT = "\033[0m"
 SPECIAL_PURPLE = "\033[0;35m[*] "
@@ -55,7 +60,7 @@ def main():
     print(SPECIAL_PURPLE + 'everythingToExcel')
     print(SPECIAL_PURPLE + '把多种格式的数据转为Excel')
     print(SPECIAL_PURPLE + 'Write by zh9ng9 <\033[5;35mhttps://github.com/Zh9ng9/everythingToExcel\033[0;35m> (202207)')
-    print(SPECIAL_PURPLE + '''Example:\n    everythingToExcel.py -iF ./input.json -oF output.xls\n    everythingToExcel.py -t txt -iF ./input.txt -H "序号|姓名|xxx|yyy|zzz" -oF output.xls''')
+    print(SPECIAL_PURPLE + '''Example:\n    python3 everythingToExcel.py -iF ./input.json -oF output.xls\n    python3 everythingToExcel.py -t txt -iF ./input.txt -H "序号|姓名|xxx|yyy|zzz" -oF output.xls''')
     print(SET_DEAULT)
     # 参数配置
     parser = argparse.ArgumentParser()
@@ -84,6 +89,7 @@ def main():
     print(SET_DEAULT)
     # 打印输出开始运行提示
     print(TIME_GREEN + "程序开始运行..." + SET_DEAULT)
+    print()
     try:
         # xlwt-workbook 建立
         workbook = xlwt.Workbook(encoding='utf-8')
@@ -133,6 +139,7 @@ def main():
         print(traceback.format_exc())
 
     end = time.time()
+    print(TIME_GREEN + "已将\"%s\"文件转换为Excel文件\"%s\"" %(args.inputFile, args.outputFile) + SET_DEAULT)
     print(TIME_GREEN + "程序用时: " + str(end - start) + SET_DEAULT)
 
 
