@@ -121,7 +121,10 @@ def main():
         for i in data:
             cols_count = len(i) if len(i) > cols_count else cols_count
         # 记录每列最大宽度
-        col_list = [len(args.header[x].encode('gb18030')) for x in range(len(args.header))]
+        if args.header:
+            col_list = [len(args.header[x].encode('gb18030')) for x in range(len(args.header))]
+        else:
+            col_list = [0 for x in range(cols_count)]
         # 数据写入Excel
         for i in range(len(data)):
             for j in range(len(data[i])):
