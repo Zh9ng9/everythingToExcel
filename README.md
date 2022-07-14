@@ -4,9 +4,13 @@
 ## 参数
 
 '-t', '--type', string in {EholeJson,txt,csv}, 文件类型(default:EholeJson)
+
 '-s', '--split', char, 分隔符 (default:\',\')
+
 '-H', '--header', string, excel表头,以\'|\'分割 (default:空)
+
 '-iF', '--inputFile', string 输入的文件名
+
 '-oF', '--outputFile', string, 输出的文件名(后缀如果不是xls会自动添加xls)')
 
 ## 使用方法
