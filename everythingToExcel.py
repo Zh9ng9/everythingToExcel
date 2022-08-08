@@ -1,5 +1,6 @@
 #-*- coding: UTF-8 -*-
 import argparse
+import socket
 import time
 import json
 import traceback
@@ -8,6 +9,7 @@ import xlwt
 # from colorama import init,Fore,Back,Style
 # init(autoreset=True)
 import os
+from urllib import parse
 if os.name == "nt":
     os.system("")
 
@@ -25,6 +27,11 @@ def EholeJsonData():
     for line in origin:
         line_result = []
         line_json = json.loads(line.strip())
+        url = line_json['url']
+        hostname = parse.urlparse(url).hostname
+        ip_result = socket.getaddrinfo(hostname, 'http')
+        print(ip_result[0][4][0])
+        line_json['ip'] = ip_result[0][4][0]
         for item in args.header:
             # 判断是否含key，没有的话放空字符串
             if line_json[item] == "None" or line_json[item] == None:
@@ -105,7 +112,7 @@ def main():
             data = txtData()
         elif args.type == "EholeJson":
             # EholeJson的表头
-            header = ["url", "cms", "server", "statuscode", "length", "title"]
+            header = ["url", "ip","cms", "server", "statuscode", "length", "title"]
             # EholeJson的表头写入header参数
             args.header = header
             data = EholeJsonData()
