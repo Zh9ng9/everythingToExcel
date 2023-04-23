@@ -3,7 +3,7 @@
 
 ## 参数
 
-'-t', '--type', string in {EholeJson,txt,csv}, 文件类型(default:EholeJson)
+'-t', '--type', string in {EholeJson,YassoJson,txt,csv}, 文件类型(default:EholeJson)
 
 '-s', '--split', char, 分隔符 (default:\',\')
 
@@ -19,6 +19,12 @@
 
 ```
 python3 everythingToExcel.py -iF ./input.json -oF output.xls
+```
+
+将YassoJson转为Excel
+
+```
+python3 everythingToExcel.py -t YassoJson -iF ./input.json -oF output.xls
 ```
 
 将txt转为Excel，自定义表头

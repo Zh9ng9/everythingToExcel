@@ -90,7 +90,7 @@ def main():
     # 参数配置
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--type', required=False, type=str, default='EholeJson',
-                        choices=['EholeJson', 'Yasso', 'txt', 'csv'],
+                        choices=['EholeJson', 'YassoJson', 'txt', 'csv'],
                         help='string in {EholeJson,txt,csv} 文件类型(default:EholeJson)')
     parser.add_argument('-s', '--split', required=False, type=str, default=",", help='char 分隔符 (default:\',\')')
     parser.add_argument('-H', '--header', required=False, type=str, default=None,
@@ -134,7 +134,7 @@ def main():
             # EholeJson的表头写入header参数
             args.header = header
             data = EholeJsonData()
-        elif args.type == "Yasso":
+        elif args.type == "YassoJson":
             # Yasoo的表头
             header = ["HostName", "Ports", "WeakPass", "Web"]
             # Yasso的表头写入header参数
