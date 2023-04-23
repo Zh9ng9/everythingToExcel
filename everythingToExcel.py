@@ -5,9 +5,6 @@ import time
 import json
 import traceback
 import xlwt
-# import colorama
-# from colorama import init,Fore,Back,Style
-# init(autoreset=True)
 import os
 from urllib import parse
 if os.name == "nt":
@@ -78,6 +75,42 @@ def csvData():
     for line in origin:
         result.append(line.strip().split(args.split))
     return result
+# 4种输入的建表函数
+def saveSingleSheet(data):
+    global args
+    # xlwt-workbook 建立
+    workbook = xlwt.Workbook(encoding='utf-8')
+    # xlwt-sheet 建立
+    sheet = workbook.add_sheet('GoodLuck')
+    # 若数据为空，报错
+    if data == None or data == []:
+        raise Exception("输入文件的数据不能为空")
+    # 写入表头（如果表头存在）
+    if args.header:
+        for header_j in range(len(args.header)):
+            sheet.write(0, header_j, args.header[header_j])
+    # 最大列数
+    cols_count = 0
+    for i in data:
+        cols_count = len(i) if len(i) > cols_count else cols_count
+    # 记录每列最大宽度
+    if args.header:
+        col_list = [len(args.header[x].encode('gb18030')) for x in range(len(args.header))]
+    else:
+        col_list = [0 for x in range(cols_count)]
+    # 数据写入Excel
+    for i in range(len(data)):
+        for j in range(len(data[i])):
+            # 写入
+            sheet.write(i + 1, j, data[i][j])
+            # 找更大的值
+            col_list[j] = len(data[i][j].encode('gb18030')) if len(data[i][j].encode('gb18030')) > col_list[j] else \
+            col_list[j]
+    for i in range(0, len(col_list)):
+        # 256*字符数得到excel列宽
+        sheet.col(i).width = 255 * (col_list[i] + 2)
+    # 保存xls
+    workbook.save(args.outputFile)
 
 
 def main():
@@ -90,7 +123,7 @@ def main():
     # 参数配置
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--type', required=False, type=str, default='EholeJson',
-                        choices=['EholeJson', 'YassoJson', 'txt', 'csv'],
+                        choices=['EholeJson', 'YassoJson', 'FscanTxt', 'txt', 'csv'],
                         help='string in {EholeJson,txt,csv} 文件类型(default:EholeJson)')
     parser.add_argument('-s', '--split', required=False, type=str, default=",", help='char 分隔符 (default:\',\')')
     parser.add_argument('-H', '--header', required=False, type=str, default=None,
@@ -116,58 +149,36 @@ def main():
     print(TIME_GREEN + "程序开始运行..." + SET_DEAULT)
     print()
     try:
-        # xlwt-workbook 建立
-        workbook = xlwt.Workbook(encoding='utf-8')
-        # xlwt-sheet 建立
-        sheet = workbook.add_sheet('GoodLuck')
         # 表头的修改
         if args.header:
             args.header = args.header.split('|')
         # 根据不同的type从不同函数获取数据
         if args.type == "txt":
             data = csvData()
+            saveSingleSheet(data)
         elif args.type == "csv":
             data = txtData()
+            saveSingleSheet(data)
         elif args.type == "EholeJson":
             # EholeJson的表头
             header = ["url", "ip","cms", "server", "statuscode", "length", "title"]
             # EholeJson的表头写入header参数
             args.header = header
             data = EholeJsonData()
+            saveSingleSheet(data)
         elif args.type == "YassoJson":
             # Yasoo的表头
             header = ["HostName", "Ports", "WeakPass", "Web"]
             # Yasso的表头写入header参数
             args.header = header
             data = YassoJsonData()
-        # 若数据为空，报错
-        if data == None or data == []:
-            raise Exception("输入文件的数据不能为空")
-        # 写入表头（如果表头存在）
-        if args.header:
-            for header_j in range(len(args.header)):
-                sheet.write(0, header_j, args.header[header_j])
-        # 最大列数
-        cols_count = 0
-        for i in data:
-            cols_count = len(i) if len(i) > cols_count else cols_count
-        # 记录每列最大宽度
-        if args.header:
-            col_list = [len(args.header[x].encode('gb18030')) for x in range(len(args.header))]
-        else:
-            col_list = [0 for x in range(cols_count)]
-        # 数据写入Excel
-        for i in range(len(data)):
-            for j in range(len(data[i])):
-                # 写入
-                sheet.write(i + 1, j, data[i][j])
-                # 找更大的值
-                col_list[j] = len(data[i][j].encode('gb18030')) if len(data[i][j].encode('gb18030')) > col_list[j] else col_list[j]
-        for i in range(0, len(col_list)):
-            # 256*字符数得到excel列宽
-            sheet.col(i).width = 255 * (col_list[i] + 2)
-        # 保存xls
-        workbook.save(args.outputFile)
+            saveSingleSheet(data)
+        elif args.type == "FscanTxt":
+            # 输出文件名
+            args.outputFile = f"fscanAuxResult_***.xlsx"
+            # Yasoo的表头
+            os.system('python fscanAux.py ' + args.inputFile)
+
     except Exception as e:
         print(ERROR_RED + "程序出现错误,已停止")
         print(traceback.format_exc())

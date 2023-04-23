@@ -1,9 +1,11 @@
 # everythingToExcel
-把多种格式的数据转为Excel。支持txt、csv、Ehole输出的json。支持自定义表头
+Ehole、Yasso、Fscan扫描输出结果转Excel，同时支持txt、csv自定义表头生成Excel。
+
+Fscan的转换简单集成了Sma11New师傅的脚本[Sma11New/fscanAux: fscan结果处理辅助脚本，整理分类输出为Excel文件，方便查看 (github.com)](https://github.com/Sma11New/fscanAux)
 
 ## 参数
 
-'-t', '--type', string in {EholeJson,YassoJson,txt,csv}, 文件类型(default:EholeJson)
+'-t', '--type', string in {EholeJson,YassoJson,FscanTxt,txt,csv}, 文件类型(default:EholeJson)
 
 '-s', '--split', char, 分隔符 (default:\',\')
 
@@ -25,6 +27,12 @@ python3 everythingToExcel.py -iF ./input.json -oF output.xls
 
 ```
 python3 everythingToExcel.py -t YassoJson -iF ./input.json -oF output.xls
+```
+
+将Fscan扫描结果txt转为Excel
+
+```
+python3 everythingToExcel.py -t FscanTxt -iF ./input.json -oF output.xls
 ```
 
 将txt转为Excel，自定义表头
