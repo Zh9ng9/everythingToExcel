@@ -34,6 +34,24 @@ def EholeJsonData():
         result.append(line_result)
     return result
 
+def YassoJsonData():
+    global args
+    result = []
+    with open(args.inputFile, encoding="utf8") as f:
+        origin = f.readlines()
+        origin = origin[0]
+    line_json = json.loads(origin.strip())
+    for line_item in line_json:
+        line_result = []
+        for header_item in args.header:
+            # 判断是否含key，没有的话放空字符串
+            if line_item[header_item] == "None" or line_item[header_item] == None:
+                line_result.append("")
+            else:
+                line_result.append(str(line_item[header_item]))
+        result.append(line_result)
+    return result
+
 
 def txtData():
     global args
@@ -65,7 +83,7 @@ def main():
     # 参数配置
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--type', required=False, type=str, default='EholeJson',
-                        choices=['EholeJson', 'txt', 'csv'],
+                        choices=['EholeJson', 'Yasso', 'txt', 'csv'],
                         help='string in {EholeJson,txt,csv} 文件类型(default:EholeJson)')
     parser.add_argument('-s', '--split', required=False, type=str, default=",", help='char 分隔符 (default:\',\')')
     parser.add_argument('-H', '--header', required=False, type=str, default=None,
@@ -109,6 +127,12 @@ def main():
             # EholeJson的表头写入header参数
             args.header = header
             data = EholeJsonData()
+        elif args.type == "Yasso":
+            # Yasoo的表头
+            header = ["HostName", "Ports", "WeakPass", "Web"]
+            # Yasso的表头写入header参数
+            args.header = header
+            data = YassoJsonData()
         # 若数据为空，报错
         if data == None or data == []:
             raise Exception("输入文件的数据不能为空")
