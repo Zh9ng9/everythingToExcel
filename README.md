@@ -48,3 +48,16 @@ python3 everythingToExcel.py -t txt -iF ./input.txt -oF output.xls -H "序号|�
 ![1.jpg](https://s2.loli.net/2022/07/14/rBTJ63Vmy8t2n1G.png)
 
 ![2.jpg](https://s2.loli.net/2022/07/14/E8L1IT5sYuPlpMN.png)
+
+## 使用截图：txt自定义表头转Excel
+
+```
+python everythingToExcel.py -t txt -iF input.txt -oF output.xls -s "|" -H "姓名|班级|性别|年龄|分数"
+```
+
+![image.png](https://s2.loli.net/2023/04/23/ANpamkgPBXSTxsO.png)
+
+![image.png](https://s2.loli.net/2023/04/23/BWsgpdyYD9tki45.png)
+
+
+

@@ -154,10 +154,10 @@ def main():
             args.header = args.header.split('|')
         # 根据不同的type从不同函数获取数据
         if args.type == "txt":
-            data = csvData()
+            data = txtData()
             saveSingleSheet(data)
         elif args.type == "csv":
-            data = txtData()
+            data = csvData()
             saveSingleSheet(data)
         elif args.type == "EholeJson":
             # EholeJson的表头
