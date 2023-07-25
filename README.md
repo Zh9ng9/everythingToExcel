@@ -21,6 +21,10 @@ Fscan的转换简单集成了Sma11New师傅的脚本[Sma11New/fscanAux: fscan结
 
 ## 使用方法
 
+项目文件放入工具同目录，修改bat中的输入输出文件名称，之后使用时只需要双击bat。
+
+
+
 将EholeJson转为Excel
 
 ```
