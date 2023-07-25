@@ -1,6 +1,6 @@
 #-*- coding: UTF-8 -*-
+# 不进行socket连接
 import argparse
-import socket
 import time
 import json
 import traceback
@@ -24,11 +24,7 @@ def EholeJsonData():
     for line in origin:
         line_result = []
         line_json = json.loads(line.strip())
-        url = line_json['url']
-        hostname = parse.urlparse(url).hostname
-        ip_result = socket.getaddrinfo(hostname, 'http')
-        print(ip_result[0][4][0])
-        line_json['ip'] = ip_result[0][4][0]
+        line_json['ip'] = "pass"
         for item in args.header:
             # 判断是否含key，没有的话放空字符串
             if line_json[item] == "None" or line_json[item] == None:

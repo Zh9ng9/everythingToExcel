@@ -1,7 +1,11 @@
 # everythingToExcel
-Ehole、Yasso、Fscan扫描输出结果转Excel，同时支持txt、csv自定义表头生成Excel。
+Ehole、Fscan、Yasso扫描输出结果转Excel，同时支持txt、csv自定义表头生成Excel。
 
 Fscan的转换简单集成了Sma11New师傅的脚本[Sma11New/fscanAux: fscan结果处理辅助脚本，整理分类输出为Excel文件，方便查看 (github.com)](https://github.com/Sma11New/fscanAux)
+
+
+
+"nosocket"版本不检测Ehole结果的ip，适用于内网不想进行额外网络请求，或python缺少socket包。
 
 ## 参数
 
@@ -23,16 +27,16 @@ Fscan的转换简单集成了Sma11New师傅的脚本[Sma11New/fscanAux: fscan结
 python3 everythingToExcel.py -iF ./input.json -oF output.xls
 ```
 
-将YassoJson转为Excel
-
-```
-python3 everythingToExcel.py -t YassoJson -iF ./input.json -oF output.xls
-```
-
 将Fscan扫描结果txt转为Excel
 
 ```
 python3 everythingToExcel.py -t FscanTxt -iF ./input.json -oF output.xls
+```
+
+将YassoJson转为Excel
+
+```
+python3 everythingToExcel.py -t YassoJson -iF ./input.json -oF output.xls
 ```
 
 将txt转为Excel，自定义表头
@@ -48,6 +52,26 @@ python3 everythingToExcel.py -t txt -iF ./input.txt -oF output.xls -H "序号|�
 ![1.jpg](https://s2.loli.net/2022/07/14/rBTJ63Vmy8t2n1G.png)
 
 ![2.jpg](https://s2.loli.net/2022/07/14/E8L1IT5sYuPlpMN.png)
+
+## 使用截图：Fscan的输出结果txt转Excel
+
+```
+python everythingToExcel.py -t FscanTxt -iF fscan.txt -oF xxx.xls
+```
+
+![ete-3.png](https://s2.loli.net/2023/07/25/pKYv49QfNaLxb2u.png)
+
+![ete-4.png](https://s2.loli.net/2023/07/25/6TQ8SXgB1voci5V.png)
+
+## 使用截图：Yasso的输出结果json转Excel
+
+```
+python everythingToExcel.py -t YassoJson -iF Yasso.json -oF Yasso.xls
+```
+
+![ete-1.png](https://s2.loli.net/2023/07/25/1QbZMlAWuVsRmYf.png)
+
+![ete-2.png](https://s2.loli.net/2023/07/25/CNcSlmtkdVDQwH2.png)
 
 ## 使用截图：txt自定义表头转Excel
 
