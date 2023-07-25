@@ -34,7 +34,7 @@ python3 everythingToExcel.py -iF ./input.json -oF output.xls
 将Fscan扫描结果txt转为Excel
 
 ```
-python3 everythingToExcel.py -t FscanTxt -iF ./input.json -oF output.xls
+python3 everythingToExcel.py -t FscanTxt -iF ./input.txt -oF output.xls
 ```
 
 将YassoJson转为Excel
